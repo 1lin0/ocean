@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Waves, Recycle, Fish, CheckCircle } from 'lucide-react';
 
 export default function SDGWebsite(){
+ const [page,setPage]=useState('home');
  const [score,setScore]=useState(0);
  const [done,setDone]=useState(false);
  const [answers,setAnswers]=useState({});
@@ -13,72 +14,23 @@ export default function SDGWebsite(){
   {q:'Buying only what you need supports SDG 12.',a:true}
  ];
  const submit=(i,val)=>{
-   if(answers[i]!==undefined) return;
-   const next={...answers,[i]:val}; setAnswers(next);
-   let ns=score + (quiz[i].a===val?1:0); setScore(ns);
-   if(Object.keys(next).length===quiz.length) setDone(true);
+  if(answers[i]!==undefined) return;
+  const next={...answers,[i]:val}; setAnswers(next);
+  const ns=score + (quiz[i].a===val?1:0); setScore(ns);
+  if(Object.keys(next).length===quiz.length) setDone(true);
  };
- return (
- <div className='min-h-screen bg-gradient-to-b from-blue-100 to-cyan-50 text-slate-800'>
-  <nav className='sticky top-0 bg-blue-700 text-white p-4 flex justify-between shadow-lg z-10'>
-   <div className='font-bold flex gap-2'><Waves/> Ocean Protection</div>
-   <div className='space-x-4 text-sm'>
-    <a href='#home'>Home</a>
-    <a href='#problem'>Problem</a>
-    <a href='#features'>Features</a>
-    <a href='#quiz'>Quiz</a>
-   </div>
-  </nav>
-
-  <section id='home' className='p-10 text-center'>
-   <h1 className='text-5xl font-bold mb-4'>From Consumption to Ocean Protection</h1>
-   <p className='text-xl'>SDG 12 Responsible Consumption + SDG 14 Life Below Water</p>
-   <div className='mt-8 grid md:grid-cols-2 gap-6'>
-    <Card className='rounded-2xl'><CardContent className='p-6'>
-      <img src='https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800' className='rounded-xl mb-4'/>
-      <p>Clean oceans support biodiversity and healthy communities.</p>
-    </CardContent></Card>
-    <Card className='rounded-2xl'><CardContent className='p-6'>
-      <img src='https://images.unsplash.com/photo-1621451537084-482c73073a0f?w=800' className='rounded-xl mb-4'/>
-      <p>Pollution from daily consumption harms marine life.</p>
-    </CardContent></Card>
-   </div>
-  </section>
-
-  <section id='problem' className='p-10 bg-white'>
-   <h2 className='text-3xl font-bold mb-4'>How does human consumption affect ocean pollution?</h2>
-   <div className='grid md:grid-cols-3 gap-4'>
-    <Card><CardContent className='p-5'><Recycle className='mb-2'/> Excess packaging creates plastic waste.</CardContent></Card>
-    <Card><CardContent className='p-5'><Fish className='mb-2'/> Marine animals ingest trash and microplastics.</CardContent></Card>
-    <Card><CardContent className='p-5'><Waves className='mb-2'/> Rivers carry land waste into oceans.</CardContent></Card>
-   </div>
-  </section>
-
-  <section id='features' className='p-10'>
-   <h2 className='text-3xl font-bold mb-4'>Interactive Awareness Section</h2>
-   <ul className='list-disc ml-6 space-y-2'>
-    <li>Before / After ocean pollution comparison</li>
-    <li>Simple eco-friendly blue design</li>
-    <li>Awareness messages encouraging sustainable behavior</li>
-    <li>Educational animations or videos can be added</li>
-   </ul>
-  </section>
-
-  <section id='quiz' className='p-10 bg-white'>
-   <h2 className='text-3xl font-bold mb-6'>Quick Quiz</h2>
-   <div className='space-y-4'>
-   {quiz.map((item,i)=>(<Card key={i}><CardContent className='p-5'>
-      <p className='font-medium mb-3'>{i+1}. {item.q}</p>
-      <div className='flex gap-3'>
-       <Button onClick={()=>submit(i,true)}>True</Button>
-       <Button variant='outline' onClick={()=>submit(i,false)}>False</Button>
-      </div>
-   </CardContent></Card>))}
-   </div>
-   {done && <div className='mt-6 p-4 bg-green-100 rounded-xl flex gap-2 items-center'><CheckCircle/> Your Score: {score}/3. Small actions create big waves of change.</div>}
-  </section>
-
-  <footer className='p-6 text-center text-sm text-slate-600'>Made for SDG 12 + SDG 14 Project</footer>
+ const NavBtn=({id,label})=><button className='hover:underline' onClick={()=>setPage(id)}>{label}</button>;
+ return <div className='min-h-screen bg-gradient-to-b from-blue-100 to-cyan-50'>
+ <nav className='bg-blue-700 text-white p-4 flex justify-between'>
+  <div className='font-bold flex gap-2'><Waves/> Ocean Protection</div>
+  <div className='space-x-4'><NavBtn id='home' label='Home'/><NavBtn id='problem' label='Problem'/><NavBtn id='features' label='Features'/><NavBtn id='quiz' label='Quiz'/></div>
+ </nav>
+ <div className='p-10'>
+ {page==='home' && <section className='text-center'><h1 className='text-5xl font-bold mb-4'>From Consumption to Ocean Protection</h1><p className='text-xl'>SDG 12 + SDG 14</p><img src='https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1000' className='rounded-2xl mx-auto mt-8'/></section>}
+ {page==='problem' && <section><h2 className='text-3xl font-bold mb-6'>How does human consumption affect ocean pollution?</h2><div className='grid md:grid-cols-3 gap-4'><Card><CardContent className='p-5'><Recycle/> Plastic packaging becomes waste.</CardContent></Card><Card><CardContent className='p-5'><Fish/> Marine life is harmed by trash.</CardContent></Card><Card><CardContent className='p-5'><Waves/> Rivers carry waste into oceans.</CardContent></Card></div></section>}
+ {page==='features' && <section><h2 className='text-3xl font-bold mb-6'>Website Features</h2><ul className='list-disc ml-6 space-y-3'><li>Blue eco-friendly design</li><li>Before / After pollution comparison</li><li>Awareness messages</li><li>Animation or video support</li><li>Encourage sustainable behavior</li></ul></section>}
+ {page==='quiz' && <section><h2 className='text-3xl font-bold mb-6'>Quick Quiz</h2><div className='space-y-4'>{quiz.map((item,i)=><Card key={i}><CardContent className='p-5'><p className='mb-3'>{i+1}. {item.q}</p><div className='flex gap-3'><Button onClick={()=>submit(i,true)}>True</Button><Button variant='outline' onClick={()=>submit(i,false)}>False</Button></div></CardContent></Card>)}</div>{done && <div className='mt-6 p-4 bg-green-100 rounded-xl flex gap-2 items-center'><CheckCircle/> Score: {score}/3</div>}</section>}
  </div>
- );
+ </div>
 }
+
