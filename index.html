@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>From Consumption to Ocean Protection</title>
+    <style>
+        /* 基礎設定與藍色環保主題  */
+        :root {
+            --primary-blue: #005f73;
+            --light-blue: #94d2bd;
+            --ocean-blue: #0a9396;
+            --bg-color: #e9f5f9;
+            --text-dark: #001219;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* 導覽列 Navigation Bar [cite: 82, 83] */
+        nav {
+            background-color: var(--primary-blue);
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--light-blue);
+        }
+
+        /* 區塊共用設定 */
+        section {
+            min-height: 100vh;
+            padding: 100px 20px 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        h1, h2 {
+            color: var(--primary-blue);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Home 區塊 [cite: 84, 90] */
+        #home {
+            background: linear-gradient(135deg, var(--light-blue) 0%, var(--ocean-blue) 100%);
+            color: var(--white);
+        }
+        
+        #home h1 {
+            color: var(--white);
+            font-size: 3rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        #home p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin-bottom: 2rem;
+        }
+
+        .sdg-tags {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .sdg-tag {
+            background-color: var(--white);
+            color: var(--primary-blue);
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+        }
+
+        /* Interactive 區塊 (Before & After) [cite: 85, 89] */
+        #interactive {
+            background-color: var(--white);
+        }
+
+        .image-compare-container {
+            position: relative;
+            width: 80%;
+            max-width: 800px;
+            height: 400px;
+            background-color: #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+        }
+
+        .img-before, .img-after {
+            width: 50%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            font-weight: bold;
+        }
+
+        .img-before {
+            background: url('https://images.unsplash.com/photo-1621451537084-482c73073e0f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80') center/cover;
+            /* Placeholder for polluted ocean */
+        }
+
+        .img-before::after {
+            content: "Polluted Ocean";
+            background: rgba(0,0,0,0.5);
+            padding: 10px;
+        }
+
+        .img-after {
+            background: url('https://images.unsplash.com/photo-1498623116890-37e912163d5d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80') center/cover;
+            /* Placeholder for clean ocean */
+        }
+        
+        .img-after::after {
+            content: "Clean Ocean";
+            background: rgba(0,0,0,0.5);
+            padding: 10px;
+        }
+
+        /* Quiz 區塊 [cite: 86, 103] */
+        #quiz {
+            background-color: var(--bg-color);
+        }
+
+        .quiz-container {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 600px;
+            width: 90%;
+            text-align: left;
+        }
+
+        .question {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: var(--ocean-blue);
+        }
+
+        .options input {
+            margin-right: 10px;
+        }
+
+        .options label {
+            display: block;
+            margin-bottom: 10px;
+            cursor: pointer;
+            padding: 8px;
+            background-color: #f4f4f4;
+            border-radius: 5px;
+        }
+
+        .options label:hover {
+            background-color: #e0e0e0;
+        }
+
+        #submit-btn {
+            background-color: var(--ocean-blue);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 15px;
+        }
+
+        #submit-btn:hover {
+            background-color: var(--primary-blue);
+        }
+
+        #quiz-result {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        /* Animation/Video 區塊 [cite: 87, 119] */
+        #animation {
+            background-color: var(--primary-blue);
+            color: var(--white);
+        }
+
+        #animation h2 {
+            color: var(--white);
+        }
+
+        .video-placeholder {
+            width: 80%;
+            max-width: 800px;
+            aspect-ratio: 16/9;
+            background-color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            border-radius: 10px;
+            border: 4px solid var(--light-blue);
+        }
+
+        /* 頁尾 Footer  */
+        footer {
+            background-color: var(--text-dark);
+            color: var(--white);
+            text-align: center;
+            padding: 20px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#interactive">Interactive</a></li>
+            <li><a href="#quiz">Quiz</a></li>
+            <li><a href="#animation">Animation</a></li>
+        </ul>
+    </nav>
+
+    <section id="home">
+        <h1>From Consumption to Ocean Protection</h1>
+        <p>Explore how our daily human consumption affects marine pollution and what we can do to save life below water.</p>
+        <div class="sdg-tags">
+            <div class="sdg-tag">SDG 12: Responsible Consumption</div>
+            <div class="sdg-tag">SDG 14: Life Below Water</div>
+        </div>
+    </section>
+
+    <section id="interactive">
+        <h2>Before & After: The Impact of Pollution</h2>
+        <p>See the difference between a polluted environment and a clean, protected ocean.</p>
+        <div class="image-compare-container">
+            <div class="img-before"></div>
+            <div class="img-after"></div>
+        </div>
+    </section>
+
+    <section id="quiz">
+        <h2>Marine Knowledge Quiz</h2>
+        <div class="quiz-container">
+            <div class="question">1. How does human consumption primarily affect ocean pollution?</div>
+            <div class="options">
+                <label><input type="radio" name="q1" value="a"> A) By increasing fish populations</label>
+                <label><input type="radio" name="q1" value="b"> B) Through plastic waste and chemical runoff</label>
+                <label><input type="radio" name="q1" value="c"> C) By creating more coral reefs</label>
+            </div>
+            <button id="submit-btn" onclick="checkQuiz()">Submit Answer</button>
+            <div id="quiz-result"></div>
+        </div>
+    </section>
+
+    <section id="animation">
+        <h2>Educational Animation / Video</h2>
+        <p>Watch this video to learn more about sustainable behaviors.</p>
+        <div class="video-placeholder">
+            <p>Video Player / Animation Canvas Goes Here</p>
+            </div>
+    </section>
+
+    <footer>
+        <p>Group 20 Final Project | 資管二 薛閔云 黃妍瑄 松怡琳</p>
+    </footer>
+
+    <script>
+        function checkQuiz() {
+            const options = document.getElementsByName('q1');
+            let selectedValue = null;
+            
+            for (let option of options) {
+                if (option.checked) {
+                    selectedValue = option.value;
+                    break;
+                }
+            }
+
+            const resultDiv = document.getElementById('quiz-result');
+            
+            if (selectedValue === 'b') {
+                resultDiv.style.color = 'green';
+                resultDiv.innerText = 'Correct! Plastic waste from daily consumption is a major source of marine pollution.';
+            } else if (selectedValue) {
+                resultDiv.style.color = 'red';
+                resultDiv.innerText = 'Incorrect. Please try again!';
+            } else {
+                resultDiv.style.color = 'orange';
+                resultDiv.innerText = 'Please select an answer first.';
+            }
+        }
+    </script>
+</body>
+</html>
